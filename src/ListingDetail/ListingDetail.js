@@ -1,42 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './ListingDetail.css';
+import axios from "axios";
 
 const ListingDetail = () => {
   const [listing, setListing] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchListingDetail = async () => {
-      // Запрос к API...
-      const fetchedListing = {
-        id,
-        title: "Просторная квартира в центре",
-        description: "Уютная и светлая квартира рядом с парком.",
-        price: "5 000 000 руб.",
-        area: "74 кв.м",
-        address: "г. Москва, ул. Пушкина, д. 10",
-        phoneNumber: "+7 (999) 888-77-66",
-        images: ["url_to_image1", "url_to_image2"],
-      };
-      setListing(fetchedListing);
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: '/ads/' + id,
+      headers: {
+        'Content-Type': 'application/json'
+      },
     };
-
-    fetchListingDetail();
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setListing(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [id]);
-
   if (!listing) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="listing-detail">
-      <h2 className="title">{listing.title}</h2>
+      <h2 className="title">{listing.name}</h2>
       <p className="description">{listing.description}</p>
       <div className="gallery">
-        {listing.images.map((image, index) => (
-          <img src={image} alt="u" key={index} className="gallery-image" />
-        ))}
+        {listing.images ? (
+          <>
+          {listing.images.map((image, index) => (
+              <img src={image} alt="u" key={index} className="gallery-image" />
+            ))}
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <ul className="details">
         <li>Цена: <strong>{listing.price}</strong></li>
