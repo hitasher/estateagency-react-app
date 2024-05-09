@@ -7,6 +7,7 @@ import Dashboard from "./Dashboard/Dashboard";
 import ListingDetail from "./ListingDetail/ListingDetail";
 import Header from "./Header/Header";
 import {AuthProvider} from "./AuthContext";
+import EditableAd from "./EditableAd/EditableAd";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   return children;
@@ -15,11 +16,6 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 
 const App = () => {
   const [user, setUser] = React.useState(null);
-
-  const handleLogin = (userData) => {
-    // Здесь должна быть логика входа (например, запрос на API и установка пользователя)
-    setUser(userData); // Предположим, что userData - это объект с данными пользователя
-  };
 
   const handleLogout = () => {
     // Здесь должна быть логика выхода (например, удаление токена доступа)
@@ -36,6 +32,7 @@ const App = () => {
               <Route path="/login" element={<LoginForm/>}/>
               <Route path="/dashboard" element={<Dashboard/>}/>
               <Route path="/dashboard/:id" element={<ListingDetail/>}/>
+              <Route path="/edit/:id" element={<EditableAd/>}/>
             </Routes>
           </div>
         </Router>

@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './Dashboard.css';
-import {Link} from "react-router-dom";
+import {Link, redirect, useNavigate} from "react-router-dom";
 import axios from "axios";
+import AuthContext from "../AuthContext";
 
 const Dashboard = () => {
   // Представление списка объявлений
   const [listings, setListings] = useState([]);
+  const { user } = useContext(AuthContext);
+  let navigate = useNavigate();
   console.log(listings);
 
   useEffect(() => {
@@ -14,7 +17,8 @@ const Dashboard = () => {
       maxBodyLength: Infinity,
       url: '/ads',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${user ? user.token : ""}`
       },
     };
     axios.request(config)
@@ -32,9 +36,8 @@ const Dashboard = () => {
       <h1>Объявления</h1>
       <div className="listings">
         {listings.map((listing, index) => (
-          <Link to={`/dashboard/${listing.id}`} key={listing.id} className="listing-link">
             <div className="listing">
-              <h2>{listing.name}</h2>
+              <h2><a href={`dashboard/${listing.id}`}>{listing.name}</a></h2>
               <p>{listing.description}</p>
               <div className="listing-details">
                 <span>Цена: {listing.price}</span>
@@ -46,8 +49,11 @@ const Dashboard = () => {
               <div className="listing-contact">
                 <span>Тел: {listing.phoneNumber}</span>
               </div>
+              {user && user.role === "ADMIN" ? (
+                <>
+                  <button className={"edit-button"} onClick={() => navigate("/edit/" + listing.id)}>Редактировать</button>
+                </>) : (<></>)}
             </div>
-          </Link>
         ))}
       </div>
     </div>
