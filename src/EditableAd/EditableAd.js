@@ -1,6 +1,6 @@
 import './EditableAd.css'
 import React, {useState, useEffect, useContext} from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from "axios";
 import AuthContext from "../AuthContext";
 
@@ -11,6 +11,7 @@ const EditableAd = ({ onUpdate, onDelete }) => {
   const [formData, setFormData] = useState({ name: '', description: '' });
   const [isLoading, setLoading] = useState(false);
   const { id } = useParams(); // Доступ к параметру id из URL
+  let navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,6 +82,26 @@ const EditableAd = ({ onUpdate, onDelete }) => {
 
   const handleIsActive = (e) => {
     setFormData({ ...formData, "active": !formData.active });
+  }
+
+  const handleDelete = (e) => {
+    let config = {
+      method: 'delete',
+      maxBodyLength: Infinity,
+      url: '/ads/' + id,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${user ? user.token : ""}`
+      }
+    };
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
 
@@ -156,7 +177,7 @@ const EditableAd = ({ onUpdate, onDelete }) => {
           <span className={"edit-span"}>{formData.name}</span>
           <span className={"edit-span"}>{formData.description}</span>
           <button className="edit-button" onClick={handleEdit}>Редактировать</button>
-          <button className="delete-button" onClick={onDelete}>Удалить</button>
+          <button className="delete-button" onClick={handleDelete}>Удалить</button>
         </div>
       )}
     </div>
