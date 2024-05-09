@@ -1,0 +1,87 @@
+/* Основной контейнер */
+.edit-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* Стили для формы редактирования */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Общие стили для input элементов */
+div.edit-form .edin-input {
+    padding: 8px;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Общие стили для кнопок */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Стили для кнопки "Сохранить" */
+button.save-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+button.save-button:hover {
+    background-color: #45a049;
+}
+
+/* Стили для кнопки "Отмена" */
+button.cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+button.cancel-button:hover {
+    background-color: #e53935;
+}
+
+/* Стили для кнопки "Редактировать" */
+button.edit-button {
+    background-color: #2196f3;
+    color: white;
+}
+
+button.edit-button:hover {
+    background-color: #1e88e5;
+}
+
+/* Стили для кнопки "Удалить" */
+button.delete-button {
+    background-color: #ff5722;
+    color: white;
+}
+
+button.delete-button:hover {
+    background-color: #f4511e;
+}
+
+/* Стили для отображения свойств объекта */
+div.display-form span {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Для отделения кнопок от данных */
+div.display-form > button {
+    margin-top: 20px;
+}

@@ -8,6 +8,7 @@ import ListingDetail from "./ListingDetail/ListingDetail";
 import Header from "./Header/Header";
 import {AuthProvider} from "./AuthContext";
 import EditableAd from "./EditableAd/EditableAd";
+import CreateAd from "./CreateAd/CreateAd";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   return children;
@@ -33,6 +34,7 @@ const App = () => {
               <Route path="/dashboard" element={<Dashboard/>}/>
               <Route path="/dashboard/:id" element={<ListingDetail/>}/>
               <Route path="/edit/:id" element={<EditableAd/>}/>
+              <Route path="/create" element={<CreateAd/>}/>
             </Routes>
           </div>
         </Router>

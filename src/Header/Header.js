@@ -16,7 +16,7 @@ const Header = ({ onLogout }) => {
         {user && user.role === "ADMIN" ? (
           <>
             <Link to="/dashboard" className="logo-link">На главную</Link>
-            <Link to="/edit" className="logo-link">Редактировать объявления</Link>
+            <Link to="/create" className="logo-link">Создать объявление</Link>
           </>
         ) : (
           <>
