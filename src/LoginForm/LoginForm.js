@@ -32,9 +32,11 @@ const LoginForm = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         const token = response.data.token;
+        const role = response.data.role;
         let userData = {
           username: credentials.username,
-          token: token
+          token: token,
+          role: role
         }
         login(userData)
         navigate('/dashboard');

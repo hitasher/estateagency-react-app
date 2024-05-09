@@ -4,14 +4,25 @@ import './Header.css';
 import AuthContext from "../AuthContext";
 
 // Пример компонента Header, где user может быть состоянием, отвечающим за данные пользователя
-const Header = ({onLogout }) => {
+const Header = ({ onLogout }) => {
 
   const { user, logout } = useContext(AuthContext);
+
+  console.log(user);
 
   return (
     <header className="header">
       <div className="container">
-        <Link to="/dashboard" className="logo-link">На главную</Link>
+        {user && user.role === "ADMIN" ? (
+          <>
+            <Link to="/dashboard" className="logo-link">На главную</Link>
+            <Link to="/edit" className="logo-link">Редактировать объявления</Link>
+          </>
+        ) : (
+          <>
+            <Link to="/dashboard" className="logo-link">На главную</Link>
+          </>
+        )}
         <nav className="user-nav">
           {user ? (
             <>
