@@ -1,24 +1,32 @@
 import React, { createContext, useState } from 'react';
 
-export const AuthContext = createContext();
+// Создание контекста
+const AuthContext = createContext(null);
 
+// Создание провайдера контекста
 export const AuthProvider = ({ children }) => {
-  const [authData, setAuthData] = useState(null);
+  const [user, setUser] = useState(null);
 
-  const setAuthInfo = ({ token }) => {
-    setAuthData(token);
-    // Вы также можете сохранить токен в localStorage
-    localStorage.setItem('token', token);
+  const login = (userData) => {
+    setUser(userData);
   };
 
   const logout = () => {
-    setAuthData(null);
-    localStorage.removeItem('token');
+    setUser(null);
+  };
+
+  // Значение, передаваемое провайдером
+  const authContextValue = {
+    user,
+    login,
+    logout
   };
 
   return (
-    <AuthContext.Provider value={{ authData, setAuthInfo, logout }}>
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;

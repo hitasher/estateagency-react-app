@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css'; // Стили для компонента Header
+import './Header.css';
+import AuthContext from "../AuthContext";
 
 // Пример компонента Header, где user может быть состоянием, отвечающим за данные пользователя
-const Header = ({ user, onLogout }) => {
+const Header = ({onLogout }) => {
   // Здесь пример функции для выхода, которую нужно реализовать
   const handleLogout = () => {
     onLogout(); // Функция, которая будет обрабатывать выход пользователя
   };
+
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <header className="header">
@@ -16,7 +19,7 @@ const Header = ({ user, onLogout }) => {
         <nav className="user-nav">
           {user ? (
             <>
-              <span className="username">{user.name}</span>
+              <span className="username">{user.username}</span>
               <button onClick={handleLogout} className="logout-button">Выйти</button>
             </>
           ) : (

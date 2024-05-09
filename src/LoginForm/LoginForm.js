@@ -1,16 +1,16 @@
 import './LoginForm.css'
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../AuthContext';
-
+import AuthContext from "../AuthContext";
 
 const LoginForm = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
-  const { setAuthInfo } = useContext(AuthContext);
 
   const handleChange = (event) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
   };
+
+  const { login, user } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,7 +18,7 @@ const LoginForm = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: '/auth/register',
+      url: '/auth/authenticate',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -29,7 +29,11 @@ const LoginForm = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         const token = response.data.token;
-        setAuthInfo({ token });
+        let userData = {
+          username: credentials.username,
+          token: token
+        }
+        login(userData)
       })
       .catch((error) => {
         console.log(error);
