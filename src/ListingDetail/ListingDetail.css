@@ -1,0 +1,49 @@
+.listing-detail {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    margin-top: 0;
+    color: #333;
+}
+
+.description {
+    white-space: pre-line; /* Чтобы отражать переносы строк в тексте описания */
+}
+
+.gallery {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.gallery-image {
+    border-radius: 8px;
+    height: 200px;
+    flex-shrink: 0; /* Предотвращение изменения размера изображений в flex контейнере */
+    object-fit: cover; /* Отображение всего изображения по высоте */
+}
+
+.details {
+    list-style-type: none;
+    padding: 0;
+}
+
+.details li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.details li:last-child {
+    border-bottom: none;
+}
+
+.details strong {
+    float: right;
+}

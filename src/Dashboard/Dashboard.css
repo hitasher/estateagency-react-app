@@ -12,11 +12,13 @@ h1 {
 
 .listings {
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 1rem;
 }
 
 .listing {
+    width: 800px;
     background: #fff;
     padding: 15px;
     border-radius: 8px;

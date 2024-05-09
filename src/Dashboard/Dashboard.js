@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
+import {Link} from "react-router-dom";
 
 const Dashboard = () => {
   // Представление списка объявлений
@@ -15,6 +16,7 @@ const Dashboard = () => {
         setTimeout(() => resolve({
           data: [
             {
+              id: 1,
               title: "Просторная квартира в центре",
               description: "Уютная и светлая квартира рядом с парком.",
               price: "5 000 000 руб.",
@@ -37,24 +39,27 @@ const Dashboard = () => {
       <h1>Объявления</h1>
       <div className="listings">
         {listings.map((listing, index) => (
-          <div key={index} className="listing">
-            <h2>{listing.title}</h2>
-            <p>{listing.description}</p>
-            <div className="listing-details">
-              <span>Цена: {listing.price}</span>
-              <span>Площадь: {listing.area}</span>
+          <Link to={`/dashboard/${listing.id}`} key={listing.id} className="listing-link">
+            <div className="listing">
+              <h2>{listing.title}</h2>
+              <p>{listing.description}</p>
+              <div className="listing-details">
+                <span>Цена: {listing.price}</span>
+                <span>Площадь: {listing.area}</span>
+              </div>
+              <div className="listing-location">
+                <span>Адрес: {listing.address}</span>
+              </div>
+              <div className="listing-contact">
+                <span>Тел: {listing.phoneNumber}</span>
+              </div>
             </div>
-            <div className="listing-location">
-              <span>Адрес: {listing.address}</span>
-            </div>
-            <div className="listing-contact">
-              <span>Тел: {listing.phoneNumber}</span>
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
   );
+
 };
 
 export default Dashboard;
