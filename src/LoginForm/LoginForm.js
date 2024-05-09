@@ -2,6 +2,7 @@ import './LoginForm.css'
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import AuthContext from "../AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -10,7 +11,9 @@ const LoginForm = () => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
   };
 
-  const { login, user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,6 +37,7 @@ const LoginForm = () => {
           token: token
         }
         login(userData)
+        navigate('/dashboard');
       })
       .catch((error) => {
         console.log(error);

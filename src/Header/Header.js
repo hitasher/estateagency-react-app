@@ -5,10 +5,6 @@ import AuthContext from "../AuthContext";
 
 // Пример компонента Header, где user может быть состоянием, отвечающим за данные пользователя
 const Header = ({onLogout }) => {
-  // Здесь пример функции для выхода, которую нужно реализовать
-  const handleLogout = () => {
-    onLogout(); // Функция, которая будет обрабатывать выход пользователя
-  };
 
   const { user, logout } = useContext(AuthContext);
 
@@ -20,7 +16,7 @@ const Header = ({onLogout }) => {
           {user ? (
             <>
               <span className="username">{user.username}</span>
-              <button onClick={handleLogout} className="logout-button">Выйти</button>
+              <button onClick={logout} className="logout-button">Выйти</button>
             </>
           ) : (
             <Link to="/login" className="login-link">Вход</Link>
