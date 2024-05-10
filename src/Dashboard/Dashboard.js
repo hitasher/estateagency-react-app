@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './Dashboard.css';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../AuthContext";
 
@@ -32,16 +32,34 @@ const Dashboard = () => {
     };
 
     axios.request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        setListings(response.data);
+      .then(async (response) => { // Используйте async здесь, чтобы использовать await дальше
+        await Promise.all(response.data.map(ad => loadImages(ad))); // Дождитесь загрузки всех изображений
+        setListings(response.data); // Обновите состояние только один раз после загрузки всех изображений
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  useEffect(fetchListings, [user?.token, minPrice, maxPrice, minArea, maxArea]); // Добавляем зависимости для фильтров
+  const loadImages = async (ad) => {
+    const imagePromises = ad.images.map(async (image) => {
+      let config = {
+        method: 'get',
+        url: `/images/get?filename=${image.filePath}`,
+        headers: {
+          'Authorization' : `Bearer ${user ? user.token : ""}`
+        },
+        responseType: 'blob'
+      };
+      const imageResponse = await axios.request(config); // Дождитесь ответа перед продолжением
+      const imageBlob = new Blob([imageResponse.data]);
+      image.file = URL.createObjectURL(imageBlob);
+    });
+
+    await Promise.all(imagePromises); // Дождитесь загрузки всех изображений для конкретного объявления
+  }
+
+  useEffect(fetchListings, [user?.token, minPrice, maxPrice, minArea, maxArea]);
 
   return (
     <div className="dashboard">
@@ -100,6 +118,13 @@ const Dashboard = () => {
             {user && user.role === "ADMIN" ? (
               <button className={"edit-button"} onClick={() => navigate("/edit/" + listing.id)}>Редактировать</button>
             ) : null}
+            <div className="listing-images">
+            {listing.images.map((image) => (
+              <div key={image.id}>
+                <img className={"listing-img"} src={image.file} alt="Image"/>
+              </div>
+            ))}
+            </div>
           </div>
         ))}
       </div>
