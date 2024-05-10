@@ -27,7 +27,7 @@ const CreateAd = ({ onUpdate, onDelete }) => {
       url: '/ads',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${user ? user.token : ""}`
+        'Authorization': `Bearer ${user ? user.token : ""}`
       },
       data: myData
     };
